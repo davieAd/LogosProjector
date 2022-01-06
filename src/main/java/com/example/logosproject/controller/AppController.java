@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -41,6 +44,20 @@ public class AppController {
         List<User> listUsers = userRepository.findAll();
         model.addAttribute("listUsers", listUsers);
         return "users";
+    }
+
+    @RequestMapping("/deleteData")
+    public String deleteUser(@RequestParam("id") Long id){
+        userRepository.deleteById(id);
+
+        ModelAndView mv = new ModelAndView();
+
+        List<User> userList = userRepository.findAll();
+
+        mv.addObject("data",userList);
+        mv.setViewName("view");
+
+        return "index";
     }
 
 
